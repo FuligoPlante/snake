@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - food
+  - Stone
+  - Map
   layers:
   - Default
   - TransparentFX
@@ -12,7 +14,7 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
+  - Obstacle
   - 
   - 
   - 
@@ -47,4 +49,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 931256455
+    locked: 0
+  - name: Stone
+    uniqueID: 2078163813
     locked: 0
