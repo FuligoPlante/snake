@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,7 +15,11 @@ public class TailControl : MonoBehaviour
     private Vector2 nextDirection;
     
     Animator animator;
-    
+
+    public float DropSpeed = 3.0f;
+    private Vector2 targetDirection;
+    private bool isDrop = false;
+    public float flySpeed = 10.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +31,14 @@ public class TailControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (isDrop)
+        {
+            transform.Translate(Vector2.down * DropSpeed * Time.deltaTime);
+            if (transform.position.y < targetDirection.y)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
     public void setDirection(Vector2 dir)
     {
@@ -182,5 +194,52 @@ public class TailControl : MonoBehaviour
             animator = GetComponent<Animator>();
         }
         animator.SetBool("IsTail", isTail);
+    }
+    public bool isOnGround()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, LayerMask.GetMask("Empty"));
+        //Debug.Log(hit.collider);
+        // 如果射线检测到地面，则返回 true
+        if (hit.collider != null)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public void Drop()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sortingOrder = SortingLayer.GetLayerValueFromName("DyingPlayer");
+        targetDirection.y = transform.position.y - 0.5f;
+        isDrop = true;
+    }
+
+    //获取在direction方向上的碰撞情况，并且处理食物的移动
+    public bool IsCollided(Vector2 direction)
+    {
+        RaycastHit2D hitObjects = Physics2D.Raycast(transform.position, direction, 1.0f, LayerMask.GetMask("Obstacle"));
+        if (hitObjects.collider == null)
+        {
+            return false;
+        }
+        //Debug.Log(hitObjects.collider.tag);
+        if (hitObjects.collider.tag == "Stone")
+        {
+            return true;
+        }
+        if (hitObjects.collider.tag == "food")
+        {
+            if (!hitObjects.collider.GetComponent<foodControl>().canMove2(direction))
+            {
+                return true;
+            }
+            else
+            {
+                hitObjects.collider.GetComponent<foodControl>().isFlying = true;
+                hitObjects.collider.GetComponent<foodControl>().move(direction*Time.deltaTime*flySpeed);
+            }
+        }
+        return false;
     }
 }
