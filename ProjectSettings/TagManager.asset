@@ -7,6 +7,10 @@ TagManager:
   - food
   - Stone
   - Map
+  - Tail
+  - Fire
+  - Cave
+  - UI
   layers:
   - Default
   - TransparentFX
@@ -15,8 +19,8 @@ TagManager:
   - Water
   - UI
   - Obstacle
-  - 
-  - 
+  - Map
+  - Empty
   - 
   - 
   - 
@@ -43,6 +47,12 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3428661771
+    locked: 0
+  - name: DyingPlayer
+    uniqueID: 710729443
     locked: 0
   - name: Map
     uniqueID: 1990407203
