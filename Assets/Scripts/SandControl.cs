@@ -22,7 +22,7 @@ public class SandControl : MonoBehaviour
         {
             if(!collision.GetComponent<Control>().eatPepper)
             {
-                Debug.Log("Game Over");
+                Destroy(collision.gameObject);
             }
         }
     }

@@ -308,7 +308,7 @@ public class Control : MonoBehaviour
                 {
                     j.GetComponent<foodControl>().isFlying = false;
                 }
-                Destroy(fire);
+                Destroy(fire,0.1f);
                 align();
             }
         }
@@ -350,6 +350,10 @@ public class Control : MonoBehaviour
     {
         canvas.SetActive(true);
         canvas.GetComponent<UIControl>().OpenFailMenu();
+        for(int i = 0; i < tail.Count; ++i)
+        {
+            Destroy(tail[i]);
+        }
     }
 
     public void OpenSuccessMenu()
